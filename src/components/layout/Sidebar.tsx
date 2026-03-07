@@ -6,15 +6,17 @@ import { Truck, Home, Users, FileText, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navigation = [
-  { name: 'Dashboard', href: '/app/dashboard', icon: Home },
-  { name: 'Drivers', href: '/app/drivers', icon: Users },
-  { name: 'Vehicles', href: '/app/vehicles', icon: Truck },
-  { name: 'Expenses', href: '/app/expenses', icon: FileText },
-  { name: 'Settings', href: '/app/settings', icon: Settings },
+  { name: 'Dashboard', href: '/app/dashboard', icon: Home, roles: ['admin', 'supervisor', 'driver'] },
+  { name: 'Drivers', href: '/app/drivers', icon: Users, roles: ['admin', 'supervisor'] },
+  { name: 'Vehicles', href: '/app/vehicles', icon: Truck, roles: ['admin', 'supervisor'] },
+  { name: 'Expenses', href: '/app/expenses', icon: FileText, roles: ['admin', 'supervisor', 'driver'] },
+  { name: 'Settings', href: '/app/settings', icon: Settings, roles: ['admin'] },
 ]
 
-export function Sidebar({ className }: { className?: string }) {
+export function Sidebar({ className, role = 'driver' }: { className?: string, role?: string }) {
   const pathname = usePathname()
+
+  const filteredNavigation = navigation.filter(item => item.roles.includes(role))
 
   return (
     <div className={cn('flex flex-col gap-y-5 px-6 pb-4', className)}>
@@ -28,7 +30,7 @@ export function Sidebar({ className }: { className?: string }) {
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" className="-mx-2 space-y-1">
-              {navigation.map((item) => {
+              {filteredNavigation.map((item) => {
                 const isActive = pathname.startsWith(item.href)
                 return (
                   <li key={item.name}>

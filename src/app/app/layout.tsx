@@ -28,7 +28,10 @@ export default async function AppLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
-      <Sidebar className="hidden md:flex w-64 flex-col fixed inset-y-0 z-50 bg-gray-900" />
+      <Sidebar 
+        className="hidden md:flex w-64 flex-col fixed inset-y-0 z-50 bg-gray-900" 
+        role={profile?.role}
+      />
       
       <div className="flex flex-1 flex-col md:pl-64">
         <TopNav user={profile || { name: user.email || 'Unknown User' }} />
@@ -39,7 +42,7 @@ export default async function AppLayout({
           </div>
         </main>
 
-        <MobileNav className="md:hidden" />
+        <MobileNav className="md:hidden" role={profile?.role} />
       </div>
     </div>
   )

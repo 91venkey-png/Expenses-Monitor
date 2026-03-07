@@ -6,19 +6,21 @@ import { Home, Users, Truck, FileText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navigation = [
-  { name: 'Dashboard', href: '/app/dashboard', icon: Home },
-  { name: 'Drivers', href: '/app/drivers', icon: Users },
-  { name: 'Vehicles', href: '/app/vehicles', icon: Truck },
-  { name: 'Expenses', href: '/app/expenses', icon: FileText },
+  { name: 'Dashboard', href: '/app/dashboard', icon: Home, roles: ['admin', 'supervisor', 'driver'] },
+  { name: 'Drivers', href: '/app/drivers', icon: Users, roles: ['admin', 'supervisor'] },
+  { name: 'Vehicles', href: '/app/vehicles', icon: Truck, roles: ['admin', 'supervisor'] },
+  { name: 'Expenses', href: '/app/expenses', icon: FileText, roles: ['admin', 'supervisor', 'driver'] },
 ]
 
-export function MobileNav({ className }: { className?: string }) {
+export function MobileNav({ className, role = 'driver' }: { className?: string, role?: string }) {
   const pathname = usePathname()
+
+  const filteredNavigation = navigation.filter(item => item.roles.includes(role))
 
   return (
     <div className={cn('fixed bottom-0 z-50 w-full border-t border-gray-200 bg-white shadow-lg', className)}>
       <div className="flex h-16 justify-around items-center px-2">
-        {navigation.map((item) => {
+        {filteredNavigation.map((item) => {
           const isActive = pathname.startsWith(item.href)
           
           return (
