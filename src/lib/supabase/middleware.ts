@@ -1,14 +1,26 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    '❌ Missing Supabase env vars. Make sure .env.local exists with:\n' +
+    '  NEXT_PUBLIC_SUPABASE_URL=...\n' +
+    '  NEXT_PUBLIC_SUPABASE_ANON_KEY=...\n' +
+    'Then restart the dev server.'
+  )
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl as string,
+    supabaseAnonKey as string,
     {
       cookies: {
         getAll() {
