@@ -1,8 +1,8 @@
-import { login } from './actions'
+import { signup } from './actions'
 import { Truck } from 'lucide-react'
 import Link from 'next/link'
 
-export default async function LoginPage({
+export default async function SignupPage({
   searchParams,
 }: {
   searchParams: { message: string }
@@ -17,10 +17,10 @@ export default async function LoginPage({
             <Truck className="h-8 w-8 text-indigo-600" />
           </div>
           <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-            Expenses Monitor
+            Create your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sign in to manage your fleet
+            Join Expenses Monitor to manage your fleet efficiently
           </p>
         </div>
 
@@ -34,8 +34,21 @@ export default async function LoginPage({
           </div>
         )}
 
-        <form className="mt-8 space-y-6" action={login}>
+        <form className="mt-8 space-y-6" action={signup}>
           <div className="space-y-4 rounded-md shadow-sm">
+            <div>
+              <label htmlFor="full-name" className="sr-only">
+                Full Name
+              </label>
+              <input
+                id="full-name"
+                name="full_name"
+                type="text"
+                required
+                className="relative block w-full rounded-lg border-0 py-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-4"
+                placeholder="Full Name"
+              />
+            </div>
             <div>
               <label htmlFor="email-address" className="sr-only">
                 Email address
@@ -69,15 +82,15 @@ export default async function LoginPage({
               type="submit"
               className="flex w-full justify-center rounded-lg bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors"
             >
-              Sign in
+              Sign up
             </button>
           </div>
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?{' '}
-          <Link href="/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-            Create an account
+          Already have an account?{' '}
+          <Link href="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            Sign in
           </Link>
         </p>
       </div>
