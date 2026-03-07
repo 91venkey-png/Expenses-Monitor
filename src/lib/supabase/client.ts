@@ -1,17 +1,19 @@
 import { createBrowserClient } from '@supabase/ssr'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    '❌ Missing Supabase env vars. Make sure .env.local exists with:\n' +
-    '  NEXT_PUBLIC_SUPABASE_URL=...\n' +
-    '  NEXT_PUBLIC_SUPABASE_ANON_KEY=...\n' +
-    'Then restart the dev server.'
-  )
-}
-
 export function createClient() {
-  return createBrowserClient(supabaseUrl as string, supabaseAnonKey as string)
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // These placeholders prevent crashes during build-time (static analysis/data collection).
+    const dummyUrl = 'https://placeholder.supabase.co'
+    const dummyKey = 'placeholder'
+    
+    if (typeof window === 'undefined') {
+        console.warn('⚠️ Supabase environment variables are missing. Using placeholders for build stability.')
+    }
+    return createBrowserClient(supabaseUrl || dummyUrl, supabaseAnonKey || dummyKey)
+  }
+
+  return createBrowserClient(supabaseUrl, supabaseAnonKey)
 }
