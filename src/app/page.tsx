@@ -53,7 +53,7 @@ export default function Home() {
                   The all-in-one logistics expense monitor. Track Fuel, Maintenance, Milkrun, and Linehaul operations with real-time analytics and automated KYC processing.
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <Button size="lg" href="/login">
+                  <Button size="lg" href="/signup">
                     Get Started Today
                   </Button>
                   <Link href="#features" className="text-sm font-semibold leading-6 text-gray-900">
