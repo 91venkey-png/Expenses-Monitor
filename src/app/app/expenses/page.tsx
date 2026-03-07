@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Calendar, Route, CheckSquare, Wrench } from 'lucide-react'
+import { createClient } from '@/lib/supabase/server'
 
 const expenseModules = [
   {
@@ -9,6 +10,7 @@ const expenseModules = [
     icon: Calendar,
     bgColor: 'bg-indigo-100',
     color: 'text-indigo-600',
+    roles: ['admin', 'supervisor', 'driver'],
   },
   {
     name: 'Linehaul Trips',
@@ -17,6 +19,7 @@ const expenseModules = [
     icon: Route,
     bgColor: 'bg-emerald-100',
     color: 'text-emerald-600',
+    roles: ['admin', 'supervisor', 'driver'],
   },
   {
     name: 'Admin Expenses',
@@ -25,6 +28,7 @@ const expenseModules = [
     icon: CheckSquare,
     bgColor: 'bg-blue-100',
     color: 'text-blue-600',
+    roles: ['admin', 'supervisor'],
   },
   {
     name: 'Maintenance Logs',
@@ -33,10 +37,23 @@ const expenseModules = [
     icon: Wrench,
     bgColor: 'bg-orange-100',
     color: 'text-orange-600',
+    roles: ['admin', 'supervisor'],
   },
 ]
 
-export default function ExpensesPage() {
+export default async function ExpensesPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  const { data: profile } = await supabase
+    .from('users')
+    .select('role')
+    .eq('id', user?.id)
+    .single()
+
+  const role = profile?.role || 'driver'
+  const filteredModules = expenseModules.filter(m => m.roles.includes(role))
+
   return (
     <div className="space-y-6 sm:px-6 lg:px-8">
       <div>
@@ -49,7 +66,7 @@ export default function ExpensesPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
-        {expenseModules.map((module) => (
+        {filteredModules.map((module) => (
           <Link
             key={module.name}
             href={module.href}
