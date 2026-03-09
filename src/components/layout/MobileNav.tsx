@@ -6,10 +6,10 @@ import { Home, Users, Truck, FileText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navigation = [
-  { name: 'Dashboard', href: '/app/dashboard', icon: Home, roles: ['admin', 'supervisor', 'driver'] },
-  { name: 'Drivers', href: '/app/drivers', icon: Users, roles: ['admin', 'supervisor'] },
-  { name: 'Vehicles', href: '/app/vehicles', icon: Truck, roles: ['admin', 'supervisor'] },
-  { name: 'Expenses', href: '/app/expenses', icon: FileText, roles: ['admin', 'supervisor', 'driver'] },
+  { name: 'Dashboard', href: '/dashboard', icon: Home, roles: ['admin', 'supervisor', 'driver'] },
+  { name: 'Drivers', href: '/drivers', icon: Users, roles: ['admin', 'supervisor'] },
+  { name: 'Vehicles', href: '/vehicles', icon: Truck, roles: ['admin', 'supervisor'] },
+  { name: 'Expenses', href: '/expenses', icon: FileText, roles: ['admin', 'supervisor', 'driver'] },
 ]
 
 export function MobileNav({ className, role = 'driver' }: { className?: string, role?: string }) {

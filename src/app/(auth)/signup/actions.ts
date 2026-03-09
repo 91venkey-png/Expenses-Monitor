@@ -64,5 +64,5 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/app/dashboard')
+  redirect('/dashboard')
 }

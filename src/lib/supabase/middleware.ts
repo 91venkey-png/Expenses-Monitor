@@ -39,10 +39,13 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Protect all /app routes
-  if (
-    !user &&
-    request.nextUrl.pathname.startsWith('/app')
-  ) {
+  // Protect all internal routes (everything that isn't root, login or public static assets)
+  const isPublicRoute = 
+    request.nextUrl.pathname === '/' || 
+    request.nextUrl.pathname.startsWith('/login') ||
+    request.nextUrl.pathname.startsWith('/auth')
+
+  if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
@@ -54,7 +57,7 @@ export async function updateSession(request: NextRequest) {
     (request.nextUrl.pathname === '/' || request.nextUrl.pathname.startsWith('/login'))
   ) {
       const url = request.nextUrl.clone()
-      url.pathname = '/app/dashboard'
+      url.pathname = '/dashboard'
       return NextResponse.redirect(url)
   }
 
